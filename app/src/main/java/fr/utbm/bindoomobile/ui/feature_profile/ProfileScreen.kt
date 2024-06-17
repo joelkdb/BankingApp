@@ -96,13 +96,7 @@ fun ProfileScreen(
                 viewModel.emitIntent(ProfileScreenIntent.ToggleMyQrDialog(isShown = true))
             },
             onShowScanQrDialog = {
-                val checkPermission =
-                    permissionHelper.checkIfPermissionGranted(context, Manifest.permission.CAMERA)
-                if (checkPermission == CheckPermissionResult.PERMISSION_ALREADY_GRANTED) {
-                    viewModel.emitIntent(ProfileScreenIntent.ToggleScanQrDialog(isShown = true))
-                } else {
-                    viewModel.emitIntent(ProfileScreenIntent.TogglePermissionDialog(isShown = true))
-                }
+
             },
             state = state
         )
@@ -132,36 +126,14 @@ fun ProfileScreen(
                     )
                 },
                 qrPurpose = QrPurpose.PROFILE_CONNECTION,
-                qrLabel = state.profile?.nickName?.let {
+                qrLabel = state.profile?.id?.let {
                     UiText.DynamicString(it)
                 }
             )
         }
 
         if (state.showScanQrDialog) {
-            ScanQrDialog(
-                onDismiss = {
-                    viewModel.emitIntent(
-                        ProfileScreenIntent.ToggleScanQrDialog(
-                            isShown = false
-                        )
-                    )
-                },
-                onScanResultContent = { qr, onRetryScan ->
-                    ScannedContactScreen(
-                        onRetryScan = onRetryScan,
-                        qrCode = qr,
-                        onBack = {
-                            viewModel.emitIntent(
-                                ProfileScreenIntent.ToggleScanQrDialog(
-                                    isShown = false
-                                )
-                            )
-                        }
-                    )
-                },
-                qrExplanation = UiText.StringResource(R.string.scan_contact_qr_explanation)
-            )
+
         }
 
         if (state.showPermissionDialog) {
