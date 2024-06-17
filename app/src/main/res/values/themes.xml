@@ -2,4 +2,15 @@
 <resources>
 
     <style name="Theme.BindooMobile" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <!-- Set the splash screen background, animated icon, and animation
+        duration. -->
+        <item name="windowSplashScreenBackground">#FFFFFFFF</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_bindoo_icon</item>
+
+        <!-- Set the theme of the Activity that directly follows your splash
+        screen. This is required. -->
+        <item name="postSplashScreenTheme">@style/Theme.BindooMobile</item>
+    </style>
 </resources>

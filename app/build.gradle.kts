@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -12,7 +13,7 @@ android {
         minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -28,19 +29,25 @@ android {
                 "proguard-rules.pro"
             )
         }
+        debug {
+            isDebuggable = true
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
+        }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
     packaging {
         resources {
@@ -59,6 +66,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    //implementation(libs.androidx.lifecycle.runtime.compose.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -66,4 +74,48 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    //Navigation
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.compose.state.events)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    //KeyPrefs
+    implementation(libs.ksprefs)
+    //Constraint layout
+    implementation(libs.androidx.constraintlayout.compose)
+
+    // Coil for compose to load images
+    implementation(libs.coil.compose)
+    implementation(libs.coil.svg)
+    //Shimmer effect loading
+    implementation(libs.compose.shimmer)
+    // Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+    //Splashscreen
+    implementation(libs.androidx.core.splashscreen)
+    //Security biometric
+    implementation(libs.androidx.security.crypto)
+    implementation(libs.androidx.biometric.ktx)
+    //Paging
+    implementation(libs.androidx.paging.compose)
+    // QR lib
+    implementation(libs.zxing.android.embedded)
+    implementation(libs.core)
+    //Work manager
+    implementation(libs.androidx.work.runtime.ktx)
+    //Koin
+    implementation(libs.koin.androidx.compose)
+    implementation(libs.koin.androidx.workmanager)
+    //Google fonts
+    implementation(libs.androidx.ui.text.google.fonts)
+    //PremissionX
+    implementation(libs.permissionx)
+    // Retrofit
+    implementation (libs.retrofit)
+    implementation (libs.converter.simplexml)
+    implementation (libs.logging.interceptor)
+    implementation (libs.okhttp)
+
 }
