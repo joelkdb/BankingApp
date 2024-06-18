@@ -24,6 +24,7 @@ import fr.utbm.bindoomobile.ui.feature_login.LoginScreen
 import fr.utbm.bindoomobile.ui.feature_onboarding.OnboardingScreen
 import fr.utbm.bindoomobile.ui.feature_profile.ProfileScreen
 import fr.utbm.bindoomobile.ui.feature_profile.menu.MenuEntry
+import fr.utbm.bindoomobile.ui.feature_transactions.TransactionHistoryScreen
 
 @Composable
 fun AppNavHost(
@@ -134,10 +135,10 @@ fun AppNavHost(
             }
 
             composable(NavDestinations.RootGraph.TransactionHistory.route) {
-//                TransactionHistoryScreen()
+                TransactionHistoryScreen()
             }
 
-            composable(NavDestinations.RootGraph.Profile.route) { navBackResult ->
+            composable(NavDestinations.RootGraph.Profile.route) {
                 ProfileScreen(
                     onLogoutCompleted = {
                         navController.navigate(NavDestinations.Login.route) {

@@ -13,7 +13,7 @@ data class LoginScreenState(
     companion object {
         fun mock() = LoginScreenState(
             formFields = LoginFormFields(
-                loginField = UiField("sokkadaba"),
+                loginField = UiField("samndihokubwayo"),
                 passwordField = UiField("#Skadaba@98")
             )
         )

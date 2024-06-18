@@ -17,6 +17,7 @@ import fr.utbm.bindoomobile.ui.feature_onboarding.OnboardingViewModel
 import fr.utbm.bindoomobile.ui.feature_profile.ProfileViewModel
 import fr.utbm.bindoomobile.ui.feature_qr_codes.DisplayQrViewModel
 import fr.utbm.bindoomobile.ui.feature_qr_codes.scanned_contact.ScannedContactViewModel
+import fr.utbm.bindoomobile.ui.feature_transactions.TransactionHistoryViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -99,34 +100,6 @@ val presentationModule = module {
         )
     }
 
-//    viewModel {
-//        SavingsViewModel(
-//            getAllSavingsUseCase = get()
-//        )
-//    }
-
-//    viewModel {
-//        SavingDetailsViewModel(
-//            getSavingByIdUseCase = get(),
-//            getCardByIdUseCase = get()
-//        )
-//    }
-//
-//    viewModel {
-//        InitSignUpViewModel(
-//            signUpWithEmailUseCase = get(),
-//            validatePasswordUseCase = get(),
-//            validateEmailUseCase = get()
-//        )
-//    }
-//
-//    viewModel {
-//        ConfirmEmailSignUpVIewModel(
-//            requestOtpGenerationUseCase = get(),
-//            confirmSignUpWithEmailUseCase = get()
-//        )
-//    }
-
     viewModel {
         LockScreenViewModel(
             authenticateWithPinUseCase = get(),
@@ -165,12 +138,12 @@ val presentationModule = module {
         )
     }
 
-//    viewModel {
-//        TransactionHistoryViewModel(
-//            getTransactionsUseCase = get(),
-//            observeTransactionStatusUseCase = get()
-//        )
-//    }
+    viewModel {
+        TransactionHistoryViewModel(
+            getTransactionsUseCase = get(),
+            observeTransactionStatusUseCase = get()
+        )
+    }
 
 //    viewModel {
 //        SendMoneyViewModel(
@@ -183,11 +156,6 @@ val presentationModule = module {
 //        )
 //    }
 
-//    viewModel {
-//        ContactPickerDialogViewModel(
-//            getContactsUseCase = get()
-//        )
-//    }
 
     viewModel {
         DisplayQrViewModel(
@@ -197,7 +165,7 @@ val presentationModule = module {
 
     viewModel {
         ScannedContactViewModel(
-            //loadUserFromQrCodeUseCase = get()
+
         )
     }
 

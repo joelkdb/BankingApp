@@ -3,6 +3,7 @@ package fr.utbm.bindoomobile.data.datasource.remote.api
 import fr.utbm.bindoomobile.data.datasource.remote.dtos.CompteSFDs
 import fr.utbm.bindoomobile.data.datasource.remote.dtos.PersonneInfo
 import fr.utbm.bindoomobile.data.datasource.remote.dtos.ResponseObject
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -44,5 +45,13 @@ interface ClientApiService {
     suspend fun balance(
         @Path("token") token: String, @Path("agency") agency: String,
         @Field("account") account: String, @Field("member") member: String
+    ): Response<ResponseObject>
+
+    @FormUrlEncoded
+    @POST("statement/{agency}/{token}")
+    suspend fun statement(
+        @Path("token") token: String, @Path("agency") agency: String,
+        @Field("account") account: String, @Field("amount") amount: Int?,
+        @Field("member") member: String
     ): Response<ResponseObject>
 }

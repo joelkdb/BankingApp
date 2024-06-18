@@ -29,19 +29,19 @@ data class CardUi(
 ) {
     companion object {
         fun mock(
-            cardColor: Color = Color(0xFF100D40),
+            cardColor: Color = Color(0xFF003259), //0xFF003259
         ): CardUi {
             val mockNumber = "2298126833989874"
 
             return CardUi(
                 id = mockNumber,
                 cardNumber = mockNumber.splitStringWithDivider(),
-                expiration = "02/24",
-                recentBalance = "\$2887.65",
-                balanceFlow = flowOf("\$2887.65"),
+                expiration = "02/29",
+                recentBalance = "2887 F",
+                balanceFlow = flowOf("2887 F"),
                 addressFirstLine = "2890 Pangandaran Street",
                 addressSecondLine = null,
-                dateAdded = "12 Jan 2021 22:12",
+                dateAdded = "12 Jan 2024 22:12",
                 cardType = UiText.DynamicString("Debit"),
                 cardColor = cardColor,
                 isPrimary = true,
@@ -72,7 +72,7 @@ data class CardUi(
                 },
                 cardColor = when (card.cardType) {
                     CardType.DEBIT -> {
-                        Color(0xFF100D40)
+                        Color(0xFF003259)
                     }
 
                     CardType.CREDIT -> {

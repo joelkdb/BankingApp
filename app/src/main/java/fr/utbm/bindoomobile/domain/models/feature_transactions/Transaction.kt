@@ -5,6 +5,7 @@ import fr.utbm.bindoomobile.domain.models.feature_account.MoneyAmount
 data class Transaction(
     val id: Long,
     val type: TransactionType,
+    val label: String,
     val value: MoneyAmount,
     val recentStatus: TransactionStatus,
     val createdDate: Long,

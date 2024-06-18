@@ -82,6 +82,8 @@
     <string name="proceed">Proceed</string>
     <string name="set_the_nominal">Set the nominal</string>
     <string name="choose_card">Choose Card</string>
+    <string name="deposit">Deposit</string>
+    <string name="withdrawal">Withdrawal</string>
 
     <string name="credit">Credit</string>
     <string name="debit">Debit</string>

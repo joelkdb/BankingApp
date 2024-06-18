@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 
 val networkModule = module {
     single {
-        val baseUrl = "https://www.ebindoo.com/rs/ebanking/"
+        val baseUrl = "https://test1.ebindoo.com/digicom/rs/ebanking/"
 
         // Provide OkHttpClient
         val okhttpClientBuilder = OkHttpClient.Builder()

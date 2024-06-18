@@ -77,7 +77,7 @@ class AddCardViewModel(
                         )
                     )
 
-                    AddCardFieldType.CARD_EXPIRATION_DATE -> { /* handled in other intent */
+                    AddCardFieldType.CARD_EXPIRATION_DATE -> {
                     }
                 }
             }
@@ -224,9 +224,6 @@ class AddCardViewModel(
                 res
             }
         )
-
-        // This will stop validation on first invalid field
-        // return validationChain.all { it.invoke().isValid }
 
         var formValidFlag = true
 

@@ -10,8 +10,12 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkManager
+import com.cioccarellia.ksprefs.KsPrefs
+import fr.utbm.bindoomobile.data.datasource.local.dao.AccountDao
+import fr.utbm.bindoomobile.data.datasource.local.dao.AgencyDao
 import fr.utbm.bindoomobile.data.datasource.local.dao.TransactionDao
 import fr.utbm.bindoomobile.data.datasource.local.entities.TransactionEntity
+import fr.utbm.bindoomobile.data.datasource.remote.api.ClientApiService
 import fr.utbm.bindoomobile.data.workers.TransactionWorker
 import fr.utbm.bindoomobile.domain.core.AppError
 import fr.utbm.bindoomobile.domain.core.ErrorType
@@ -31,10 +35,12 @@ class TransactionRepositoryMock(
     private val workManager: WorkManager,
     private val transactionDao: TransactionDao,
     private val coroutineDispatcher: CoroutineDispatcher,
-    //private val contactsRepository: ContactsRepository
+    private val accountDao: AccountDao,
+    private val agencyDao: AgencyDao,
+    private val prefs: KsPrefs,
+    private val api: ClientApiService
 ) : TransactionRepository {
     override suspend fun getTransactions(filterByType: TransactionType?): Flow<PagingData<Transaction>> {
-        val contacts = mutableListOf(Contact(1, "Contact 1", "", ""))
 
         return Pager(
             config = PagingConfig(
@@ -45,21 +51,25 @@ class TransactionRepositoryMock(
             pagingSourceFactory = {
                 TransactionSource(
                     filterByType = filterByType,
-                    transactionDao = transactionDao
+                    transactionDao = transactionDao,
+                    accountDao = accountDao,
+                    agencyDao = agencyDao,
+                    prefs = prefs,
+                    api = api
                 )
             }
         ).flow.map {
             it.map { cachedTx ->
-                mapTransactionFromCache(cachedTx, contacts)
+                mapTransactionFromCache(cachedTx)
             }
         }
     }
 
     override fun getTransactionStatusFlow(transactionId: Long): Flow<TransactionStatus> {
         return flow {
-            // Emit last cached status
             while (true) {
-                val tx = transactionDao.getTransaction(transactionId) ?: throw AppError(ErrorType.TRANSACTION_NOT_FOUND)
+                val tx = transactionDao.getTransaction(transactionId)
+                    ?: throw AppError(ErrorType.TRANSACTION_NOT_FOUND)
                 emit(tx.recentStatus)
 
                 delay(MOCK_TRANSACTION_STATUS_CHECK_DELAY)
@@ -71,11 +81,12 @@ class TransactionRepositoryMock(
         val raw = TransactionEntity(
             type = payload.type,
             value = payload.amount,
-            linkedContactId = payload.contactId,
             createdDate = System.currentTimeMillis(),
             recentStatus = TransactionStatus.PENDING,
             updatedStatusDate = System.currentTimeMillis(),
-            cardId = payload.cardId
+            cardId = payload.cardId,
+            reference = "",
+            label = ""
         )
         val savedId = transactionDao.addTransaction(raw)
 
@@ -99,18 +110,14 @@ class TransactionRepositoryMock(
     }
 
     private fun mapTransactionFromCache(
-        entity: TransactionEntity,
-        contacts: List<Contact>
+        entity: TransactionEntity
     ): Transaction {
         return Transaction(
             id = entity.id,
             type = entity.type,
+            label = entity.label,
             value = entity.value,
             recentStatus = entity.recentStatus,
-//            linkedContact = when (entity.type) {
-//                TransactionType.TOP_UP -> null
-//                else -> entity.linkedContactId?.let { id -> contacts.find { contact -> contact.id == id } }
-//            },
             createdDate = entity.createdDate,
             updatedStatusDate = entity.updatedStatusDate
         )

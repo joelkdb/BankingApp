@@ -19,5 +19,8 @@ data class ResponseObject(
     var personneInfo: PersonneInfo? = null,
 
     @field:ElementList(name = "comptes", entry = "compte", required = false)
-    var comptes: List<Compte>? = null
+    var comptes: List<Compte>? = null,
+
+    @field:ElementList(name = "statements", entry = "statement", required = false)
+    var statements: ArrayList<Statement>? = null
 )
