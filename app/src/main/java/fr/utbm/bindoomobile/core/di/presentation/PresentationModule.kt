@@ -16,8 +16,8 @@ import fr.utbm.bindoomobile.ui.feature_login.LoginViewModel
 import fr.utbm.bindoomobile.ui.feature_onboarding.OnboardingViewModel
 import fr.utbm.bindoomobile.ui.feature_profile.ProfileViewModel
 import fr.utbm.bindoomobile.ui.feature_qr_codes.DisplayQrViewModel
-import fr.utbm.bindoomobile.ui.feature_qr_codes.scanned_contact.ScannedContactViewModel
 import fr.utbm.bindoomobile.ui.feature_transactions.TransactionHistoryViewModel
+import fr.utbm.bindoomobile.ui.feature_transfer.SendMoneyViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -123,15 +123,6 @@ val presentationModule = module {
         )
     }
 
-//    viewModel {
-//        TopUpScreenViewModel(
-//            getSuggestedTopUpValuesUseCase = get(),
-//            getCardByIdUseCase = get(),
-//            getDefaultCardUseCase = get(),
-//            topUpAccountUseCase = get(),
-//        )
-//    }
-
     viewModel {
         CardPickerViewModel(
             getAllCardsUseCase = get()
@@ -145,27 +136,21 @@ val presentationModule = module {
         )
     }
 
-//    viewModel {
-//        SendMoneyViewModel(
-//            getSuggestedSendValuesForCardBalance = get(),
-//            getCardByIdUseCase = get(),
-//            getDefaultCardUseCase = get(),
-//            getRecentContactUseCase = get(),
-//            getContactByIdUseCase = get(),
-//            sendMoneyUseCase = get(),
-//        )
-//    }
+    viewModel {
+        SendMoneyViewModel(
+            getAccountByIdUseCase = get(),
+            getDefaultAccountUseCase = get(),
+            getRecipientByAccountUseCase = get(),
+            sendMoneyUseCase = get(),
+            agencyDao = get(),
+            sfdDao = get(),
+        )
+    }
 
 
     viewModel {
         DisplayQrViewModel(
             generateQrCodeUseCase = get()
-        )
-    }
-
-    viewModel {
-        ScannedContactViewModel(
-
         )
     }
 

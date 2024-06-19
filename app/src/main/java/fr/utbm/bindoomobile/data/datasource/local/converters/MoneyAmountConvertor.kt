@@ -12,7 +12,6 @@ class MoneyAmountConvertor {
     }
 
     @TypeConverter
-    // FIXME currency when needed
     fun moneyAmountFromDb(value: Float?): MoneyAmount? {
         return if (value != null) {
             MoneyAmount(value)

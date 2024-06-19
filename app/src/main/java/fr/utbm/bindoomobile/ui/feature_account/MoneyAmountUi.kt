@@ -11,7 +11,7 @@ data class MoneyAmountUi(
 ) {
     companion object {
         fun mapFromDomain(balance: MoneyAmount): MoneyAmountUi {
-            val symbols = DecimalFormatSymbols(Locale.ROOT)
+            val symbols = DecimalFormatSymbols(Locale.getDefault())
             val decimalFormat = DecimalFormat("#,##0.##", symbols)
             decimalFormat.isGroupingUsed = false
             val formattedValue = decimalFormat.format(balance.value)
@@ -34,7 +34,7 @@ data class MoneyAmountUi(
         }
 
         fun mapFromDomainTwo(balance: MoneyAmount): MoneyAmountUi {
-            val symbols = DecimalFormatSymbols(Locale.ROOT)
+            val symbols = DecimalFormatSymbols(Locale.getDefault())
             val decimalFormat = DecimalFormat("#,##0.##", symbols)
             decimalFormat.isGroupingUsed = false
             val formattedValue = decimalFormat.format(balance.value)

@@ -25,6 +25,7 @@ import fr.utbm.bindoomobile.ui.feature_onboarding.OnboardingScreen
 import fr.utbm.bindoomobile.ui.feature_profile.ProfileScreen
 import fr.utbm.bindoomobile.ui.feature_profile.menu.MenuEntry
 import fr.utbm.bindoomobile.ui.feature_transactions.TransactionHistoryScreen
+import fr.utbm.bindoomobile.ui.feature_transfer.SendMoneyScreen
 
 @Composable
 fun AppNavHost(
@@ -200,13 +201,11 @@ fun AppNavHost(
                             }
 
                             AccountAction.SendMoney -> {
-                                val route = "${NavDestinations.RootGraph.AccountSend.route}?selectedCard=${cardId}"
-                                navController.navigate(route)
+                                navController.navigate(NavDestinations.RootGraph.AccountSend.route)
                             }
 
                             AccountAction.TopUp -> {
-                                val route = "${NavDestinations.RootGraph.AccountTopUp.route}?selectedCard=${cardId}"
-                                navController.navigate(route)
+
                             }
                         }
                     }
@@ -225,40 +224,31 @@ fun AppNavHost(
             ) {
                 val selectedCard = it.arguments?.getString("selectedCard")
 
-//                TopUpScreen(
-//                    onBack = {
-//                        navController.popBackStack()
-//                    },
-//                    selectedCardId = selectedCard
-//                )
             }
 
+
             composable(
-                route = "${NavDestinations.RootGraph.AccountSend.route}?selectedCard={selectedCard}",
+                route = "${NavDestinations.RootGraph.AccountSend.route}?selectedAccount={selectedAccount}",
                 arguments = listOf(
-                    navArgument("selectedCard") {
+                    navArgument("selectedAccount") {
                         nullable = true
                         defaultValue = null
                         type = NavType.StringType
                     }
                 )
             ) {
-                val selectedCard = it.arguments?.getString("selectedCard")
+                val selectedCard = it.arguments?.getString("selectedAccount")
 
-//                SendMoneyScreen(
-//                    onBack = {
-//                        navController.popBackStack()
-//                    },
-//                    selectedCardId = selectedCard
-//                )
+                SendMoneyScreen(
+                    onBack = {
+                        navController.popBackStack()
+                    },
+                    selectedAccountId = selectedCard
+                )
             }
 
             composable(NavDestinations.RootGraph.Help.route) {
-//                HelpScreen(
-//                    onBack = {
-//                        navController.popBackStack()
-//                    }
-//                )
+
             }
 
             composable(NavDestinations.RootGraph.AppSettings.route) {

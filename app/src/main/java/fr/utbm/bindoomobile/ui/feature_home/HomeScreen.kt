@@ -65,7 +65,6 @@ fun HomeScreen(
     onGoToDestination: (navEntry: NavDestinations) -> Unit = {},
     onAccountAction: (AccountAction) -> Unit = {},
     onCardDetails: (cardId: String) -> Unit = {},
-    onSavingDetails: (id: Long) -> Unit = {}
 ) {
 
     LaunchedEffect(Unit) {
@@ -78,7 +77,6 @@ fun HomeScreen(
             state = state,
             onGoToDestination = onGoToDestination,
             onCardDetails = onCardDetails,
-            onSavingDetails = onSavingDetails,
             onAccountAction = onAccountAction
         )
 
@@ -94,7 +92,6 @@ fun HomeScreen_Ui(
     state: HomeState.Success,
     onGoToDestination: (navEntry: NavDestinations) -> Unit = {},
     onCardDetails: (cardId: String) -> Unit = {},
-    onSavingDetails: (id: Long) -> Unit = {},
     onAccountAction: (AccountAction) -> Unit = {},
 ) {
     Column(

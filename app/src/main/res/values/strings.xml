@@ -82,6 +82,7 @@
     <string name="proceed">Proceed</string>
     <string name="set_the_nominal">Set the nominal</string>
     <string name="choose_card">Choose Card</string>
+    <string name="choose_account">Choose Account</string>
     <string name="deposit">Deposit</string>
     <string name="withdrawal">Withdrawal</string>
 
@@ -141,4 +142,8 @@
     <string name="invalid_token">User can\'t be identified.</string>
     <string name="invalid_login_field">Invalid login</string>
     <string name="your_activities">Your Activities</string>
+    <string name="classic">Classic</string>
+    <string name="tontine">Tontine</string>
+    <string name="insufficient_account_balance">Insufficient account balance</string>
+    <string name="account_not_found">Account not found</string>
 </resources>

@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 
 object RetrofitService {
-    private const val BASE_URL = "https://www.ebindoo.com/rs/ebanking/"
+    private const val BASE_URL = "https://test1.ebindoo.com/digicom/rs/ebanking/"
 
     val api: ClientApiService by lazy {
         Retrofit.Builder()

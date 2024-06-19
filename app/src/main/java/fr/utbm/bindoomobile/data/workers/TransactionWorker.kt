@@ -7,6 +7,7 @@ import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import fr.utbm.bindoomobile.data.datasource.local.dao.TransactionDao
 import fr.utbm.bindoomobile.data.datasource.local.entities.TransactionEntity
+import fr.utbm.bindoomobile.data.datasource.remote.api.ClientApiService
 import fr.utbm.bindoomobile.domain.core.AppError
 import fr.utbm.bindoomobile.domain.core.ErrorType
 import fr.utbm.bindoomobile.domain.core.OperationResult
@@ -46,7 +47,7 @@ class TransactionWorker(
                         transactionNotificationHelper.apply {
                             val notificationUi = successMessage(
                                 transactionType = transaction.type,
-                                cardId = transaction.cardId,
+                                accountId = transaction.cardId,
                                 amount = transaction.value
                             )
 

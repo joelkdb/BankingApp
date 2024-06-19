@@ -268,7 +268,7 @@ fun AddCardScreen_Ui(
 
 // TODO refactoring
 @Composable
-private fun FormField(
+fun FormField(
     title: String,
     // TODO rename
     uiField: UiField,

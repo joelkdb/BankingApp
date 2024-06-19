@@ -48,7 +48,6 @@ private val CARD_WIDTH_FIXED = 300.dp
 private val CardShape = RoundedCornerShape(10.dp)
 private val selectionStrokeWidth = 8.dp
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PaymentCard(
     modifier: Modifier = Modifier,

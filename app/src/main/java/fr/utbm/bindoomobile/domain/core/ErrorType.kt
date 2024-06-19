@@ -21,6 +21,7 @@ enum class ErrorType {
     DATA_FETCHING_ERROR,
     INVALID_LOGIN_FIELD,
     INVALID_TOKEN,
+    ACCOUNT_NOT_FOUND,
 
     UNKNOWN_ERROR, ;
 

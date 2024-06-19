@@ -1,6 +1,5 @@
 package fr.utbm.bindoomobile.ui.feature_profile
 
-import android.Manifest
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -36,10 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import fr.utbm.bindoomobile.ui.feature_qr_codes.scanned_contact.ScannedContactScreen
 import by.alexandr7035.banking.ui.feature_profile.ProfileScreenIntent
-import fr.utbm.bindoomobile.ui.feature_qr_codes.ShowQrDialog
-import fr.utbm.bindoomobile.ui.feature_qr_codes.scan_qr.ScanQrDialog
 import de.palm.composestateevents.EventEffect
 import fr.utbm.bindoomobile.R
 import fr.utbm.bindoomobile.domain.core.OperationResult
@@ -53,7 +49,6 @@ import fr.utbm.bindoomobile.ui.components.header.ScreenHeader
 import fr.utbm.bindoomobile.ui.components.permissions.PermissionExplanationDialog
 import fr.utbm.bindoomobile.ui.components.snackbar.SnackBarMode
 import fr.utbm.bindoomobile.ui.core.error.asUiTextError
-import fr.utbm.bindoomobile.ui.core.permissions.CheckPermissionResult
 import fr.utbm.bindoomobile.ui.core.permissions.LocalPermissionHelper
 import fr.utbm.bindoomobile.ui.core.resources.UiText
 import fr.utbm.bindoomobile.ui.feature_logout.LogoutDialog
@@ -63,6 +58,7 @@ import fr.utbm.bindoomobile.ui.feature_profile.menu.MenuEntry
 import fr.utbm.bindoomobile.ui.feature_profile.menu.MenuItem
 import fr.utbm.bindoomobile.ui.feature_profile.menu.MenuItemsList
 import fr.utbm.bindoomobile.ui.feature_profile.model.ProfileUi
+import fr.utbm.bindoomobile.ui.feature_qr_codes.ShowQrDialog
 import fr.utbm.bindoomobile.ui.theme.primaryFontFamily
 import org.koin.androidx.compose.koinViewModel
 

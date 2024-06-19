@@ -24,8 +24,8 @@ data class AddCardState(
             return AddCardState(
                 formFields = AddCardFormFields(
                     cardNumber = UiField(randomMockCard.first),
-                    cardHolder = UiField("Alexander Michael"),
-                    addressFirstLine = UiField("2890 Pangandaran Street"),
+                    cardHolder = UiField("Soklibou Joel Kadaba"),
+                    addressFirstLine = UiField("6 Boulevard Anatole France"),
                     addressSecondLine = UiField(""),
                     cvvCode = UiField("123"),
                     expirationDateTimestamp = mockExpiration,

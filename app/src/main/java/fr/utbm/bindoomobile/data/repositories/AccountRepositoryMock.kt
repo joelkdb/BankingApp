@@ -16,6 +16,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 
 class AccountRepositoryMock(
     private val coroutineDispatcher: CoroutineDispatcher,
@@ -29,6 +30,19 @@ class AccountRepositoryMock(
         return accountsDao.getAccountFilteredByPriority()!!.first()
     }
 
+    override suspend fun getAccountById(accountId: String): AccountEntity =
+        withContext(coroutineDispatcher) {
+            val accountEntity = accountsDao.getAccountByNumber(accountId) ?: throw AppError(
+                ErrorType.ACCOUNT_NOT_FOUND
+            )
+            delay(MOCK_DELAY)
+            return@withContext accountEntity
+        }
+
+    override suspend fun getAccounts(): List<AccountEntity> {
+        return accountsDao.getAccounts()
+    }
+
     override fun getBalanceFlow(): Flow<MoneyAmount> {
         return flow {
             while (true) {
@@ -36,6 +50,23 @@ class AccountRepositoryMock(
                 delay(MOCK_OBSERVING_DELAY)
             }
         }.flowOn(coroutineDispatcher)
+    }
+
+    override suspend fun getRecipient(recipientAccount: String): String {
+        val mainAccount = getMainAccount()
+        val agency = agencyDao.getAgencyById(mainAccount.agencyId)!!
+
+        val token = prefs.pull<String>(PrefKeys.USER_TOKEN.name)
+
+        val memberResponse = api.memberInfos(token, agency.code, recipientAccount)
+
+        if (memberResponse.isSuccessful && memberResponse.body() != null) {
+            val response = memberResponse.body()!!
+            if (response.code == 0) {
+                return response.member?.fullName ?: ""
+            }
+        }
+        return ""
     }
 
     override suspend fun getCardBalanceFlow(cardId: String): Flow<MoneyAmount> {
@@ -54,21 +85,6 @@ class AccountRepositoryMock(
         }.flowOn(coroutineDispatcher)
     }
 
-    override suspend fun topUpCard(cardId: String, amount: MoneyAmount) {
-        val cardEntity =
-            cardsDao.getCardByNumber(cardId) ?: throw AppError(ErrorType.CARD_NOT_FOUND)
-        val updated = cardEntity.copy(recentBalance = cardEntity.recentBalance + amount.value)
-        cardsDao.updateCard(updated)
-    }
-
-    override suspend fun sendFromCard(cardId: String, amount: MoneyAmount, contactId: Long) {
-        val cardEntity =
-            cardsDao.getCardByNumber(cardId) ?: throw AppError(ErrorType.CARD_NOT_FOUND)
-        if (cardEntity.recentBalance < amount.value) throw AppError(ErrorType.INSUFFICIENT_CARD_BALANCE)
-        val updated = cardEntity.copy(recentBalance = cardEntity.recentBalance - amount.value)
-        cardsDao.updateCard(updated)
-    }
-
     private suspend fun calculateBalance(): MoneyAmount {
         //Get the main account
         val mainAccount = accountsDao.getAccountFilteredByPriority()!!.first()
@@ -76,11 +92,14 @@ class AccountRepositoryMock(
 
         val token = prefs.pull<String>(PrefKeys.USER_TOKEN.name)
 
-        val balanceResponse = api.balance(token, agency.code, mainAccount.number, "")
+        val balanceResponse = api.balance(token, agency.code, mainAccount.number)
 
         if (balanceResponse.isSuccessful && balanceResponse.body() != null) {
             val response = balanceResponse.body()!!
             if (response.code == 0) {
+                mainAccount.balance = response.value.toDouble()
+                //Update account balance
+                accountsDao.updateAccount(mainAccount)
                 return MoneyAmount(response.value.toFloat())
             }
         }
@@ -89,6 +108,7 @@ class AccountRepositoryMock(
     }
 
     companion object {
+        private const val MOCK_DELAY = 500L
         private const val MOCK_OBSERVING_DELAY = 5000L
     }
 }

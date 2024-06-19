@@ -37,8 +37,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import fr.utbm.bindoomobile.ui.components.ScreenPreview
 import fr.utbm.bindoomobile.R
+import fr.utbm.bindoomobile.ui.components.ScreenPreview
 import fr.utbm.bindoomobile.ui.theme.Gray15
 import fr.utbm.bindoomobile.ui.theme.Gray5
 import fr.utbm.bindoomobile.ui.theme.Gray60
@@ -120,7 +120,13 @@ fun PrimaryTextField(
             },
             label = label,
             container = {
-                OutlinedTextFieldDefaults.ContainerBox(enabled, error != null, interactionSource, colors, shape)
+                OutlinedTextFieldDefaults.ContainerBox(
+                    enabled,
+                    error != null,
+                    interactionSource,
+                    colors,
+                    shape
+                )
             }
         )
     }
@@ -208,7 +214,10 @@ fun PasswordTextField(
                 painterResource(id = R.drawable.ic_invisible)
             }
 
-            val description = if (passwordVisible.value) stringResource(R.string.hide_password) else stringResource(R.string.show_password)
+            val description =
+                if (passwordVisible.value) stringResource(R.string.hide_password) else stringResource(
+                    R.string.show_password
+                )
 
             IconButton(onClick = { passwordVisible.value = !passwordVisible.value }) {
                 Icon(painter = icon, description)
@@ -218,6 +227,30 @@ fun PasswordTextField(
 
 }
 
+
+@Composable
+fun DecoratedSearchTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    onTrailingIconClick: () -> Unit = {}
+) {
+
+    PrimaryTextField(
+        modifier = modifier,
+        value = value,
+        onValueChange = onValueChange,
+        singleLine = true,
+        trailingIcon = {
+            val icon = painterResource(id = R.drawable.ic_search)
+
+            IconButton(onClick = { onTrailingIconClick() }) {
+                Icon(painter = icon, "Search")
+            }
+        }
+    )
+
+}
 
 @Composable
 fun DecoratedPasswordTextField(
@@ -242,7 +275,10 @@ fun DecoratedPasswordTextField(
                 painterResource(id = R.drawable.ic_invisible)
             }
 
-            val description = if (passwordVisible.value) stringResource(R.string.hide_password) else stringResource(R.string.show_password)
+            val description =
+                if (passwordVisible.value) stringResource(R.string.hide_password) else stringResource(
+                    R.string.show_password
+                )
 
             IconButton(onClick = { passwordVisible.value = !passwordVisible.value }) {
                 Icon(painter = icon, description)
@@ -283,7 +319,7 @@ fun ReadonlyTextField(
 @Preview
 @Composable
 fun TextField_Preview() {
-    ScreenPreview{
+    ScreenPreview {
         Column(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -329,6 +365,13 @@ fun TextField_Preview() {
                 modifier = Modifier.fillMaxWidth(),
                 value = "Test test test",
                 onValueChange = {}
+            )
+
+            DecoratedSearchTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = "Test test test",
+                onValueChange = {},
+                onTrailingIconClick = {}
             )
 
             Text("Other")

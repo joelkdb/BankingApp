@@ -22,5 +22,8 @@ data class ResponseObject(
     var comptes: List<Compte>? = null,
 
     @field:ElementList(name = "statements", entry = "statement", required = false)
-    var statements: ArrayList<Statement>? = null
+    var statements: ArrayList<Statement>? = null,
+
+    @field:Element(name = "member", required = false)
+    var member: MFIMember? = null,
 )

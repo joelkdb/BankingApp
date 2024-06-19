@@ -25,27 +25,31 @@ class TransactionNotificationHelper(
     fun successMessage(
         transactionType: TransactionType,
         amount: MoneyAmount,
-        cardId: String,
+        accountId: String,
     ): NotificationUi {
         return when (transactionType) {
             TransactionType.SEND -> {
                 NotificationUi(
                     title = "Transaction confirmed!",
-                    message = "You've sent ${MoneyAmountUi.mapFromDomain(amount).amountStr}",
+                    message = "You've sent ${MoneyAmountUi.mapFromDomainTwo(amount).amountStr} to $accountId",
                 )
             }
 
             TransactionType.RECEIVE -> {
                 NotificationUi(
                     title = "New incoming transaction!",
-                    message = "You've received ${MoneyAmountUi.mapFromDomain(amount).amountStr}",
+                    message = "You've received ${MoneyAmountUi.mapFromDomainTwo(amount).amountStr}.",
                 )
             }
 
             TransactionType.TOP_UP -> {
                 NotificationUi(
                     title = "Top up successful!",
-                    message = "You've received ${MoneyAmountUi.mapFromDomain(amount).amountStr}",
+                    message = "You've topped up your card with ${
+                        MoneyAmountUi.mapFromDomainTwo(
+                            amount
+                        ).amountStr
+                    }",
                 )
             }
         }
@@ -61,7 +65,6 @@ class TransactionNotificationHelper(
         )
     }
 
-    // Fore cases when tx launched in foreground service
     fun pending(): NotificationUi {
         return NotificationUi(
             title = "Operation in progress",

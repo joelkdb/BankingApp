@@ -5,7 +5,4 @@ import org.koin.dsl.module
 
 val connectionsModule = module {
     factory { GenerateQrCodeUseCase() }
-//    factory { LoadUserFromQrCodeUseCase(
-//        contactsRepository = get()
-//    ) }
 }

@@ -37,11 +37,11 @@ data class CardUi(
                 id = mockNumber,
                 cardNumber = mockNumber.splitStringWithDivider(),
                 expiration = "02/29",
-                recentBalance = "2887 F",
-                balanceFlow = flowOf("2887 F"),
-                addressFirstLine = "2890 Pangandaran Street",
+                recentBalance = "2500 XOF",
+                balanceFlow = flowOf("2500 XOF"),
+                addressFirstLine = "6 Boulevard Anatole France",
                 addressSecondLine = null,
-                dateAdded = "12 Jan 2024 22:12",
+                dateAdded = "12 Jun 2024 22:12",
                 cardType = UiText.DynamicString("Debit"),
                 cardColor = cardColor,
                 isPrimary = true,
@@ -54,7 +54,7 @@ data class CardUi(
             balanceFlow: Flow<String>? = null
         ): CardUi {
             val date = card.expiration.getFormattedDate("MM/yy")
-            val recentBalance = MoneyAmountUi.mapFromDomain(card.recentBalance).amountStr
+            val recentBalance = MoneyAmountUi.mapFromDomainTwo(card.recentBalance).amountStr
 
             return CardUi(
                 id = card.cardId,

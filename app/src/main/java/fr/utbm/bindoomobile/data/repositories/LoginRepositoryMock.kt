@@ -51,7 +51,7 @@ class LoginRepositoryMock(
             if (loginResponse.isSuccessful && responseObject != null && responseObject.code == 0) {
                 Log.i("LoginRepositoryMock", "Login successful ${responseObject.value}")
                 // If login is successful, call grantee API
-                val granteeResponse = api.grantee(responseObject.value, "")
+                val granteeResponse = api.grantee(responseObject.value)
                 Log.i("LoginRepositoryMock", "Grantee API call")
                 val personneInfo = granteeResponse.body()
 
@@ -62,7 +62,7 @@ class LoginRepositoryMock(
 
                     // If grantee API is successful, call accounts API
                     val accountsResponse =
-                        api.accounts(responseObject.value, "", "")
+                        api.accounts(responseObject.value)
                     Log.i("LoginRepositoryMock", "Accounts API call")
                     val compteSFDs = accountsResponse.body()
 

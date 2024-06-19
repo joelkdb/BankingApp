@@ -16,6 +16,9 @@ interface SFDDao {
     @Query("SELECT * FROM sfds")
     suspend fun getSFDs(): List<SFDEntity>
 
+    @Query("SELECT * FROM sfds WHERE sfdId = (:id)")
+    suspend fun getSFDById(id: Long): SFDEntity?
+
     @Query("SELECT * FROM sfds WHERE code = (:code)")
     suspend fun getSFDByCode(code: String): SFDEntity?
 

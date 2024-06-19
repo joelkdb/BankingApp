@@ -34,5 +34,6 @@ fun ErrorType.asUiTextError(): UiText {
         ErrorType.DATA_FETCHING_ERROR -> UiText.StringResource(R.string.data_fetching_error)
         ErrorType.INVALID_TOKEN -> UiText.StringResource(R.string.invalid_token)
         ErrorType.INVALID_LOGIN_FIELD -> UiText.StringResource(R.string.invalid_login_field)
+        ErrorType.ACCOUNT_NOT_FOUND -> UiText.StringResource(R.string.account_not_found)
     }
 }

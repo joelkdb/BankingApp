@@ -78,7 +78,7 @@ class TransactionSource(
 
         val token = prefs.pull<String>(PrefKeys.USER_TOKEN.name)
 
-        val statementResponse = api.statement(token, agency.code, mainAccount.number, 0, "")
+        val statementResponse = api.statement(token, agency.code, mainAccount.number)
         if (statementResponse.isSuccessful && statementResponse.body() != null) {
             val response = statementResponse.body()!!
             if (response.code == 0) {

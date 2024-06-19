@@ -11,6 +11,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkManager
 import com.cioccarellia.ksprefs.KsPrefs
+import fr.utbm.bindoomobile.data.app.PrefKeys
 import fr.utbm.bindoomobile.data.datasource.local.dao.AccountDao
 import fr.utbm.bindoomobile.data.datasource.local.dao.AgencyDao
 import fr.utbm.bindoomobile.data.datasource.local.dao.TransactionDao
@@ -24,6 +25,7 @@ import fr.utbm.bindoomobile.domain.models.feature_transactions.TransactionRowPay
 import fr.utbm.bindoomobile.domain.models.feature_transactions.TransactionStatus
 import fr.utbm.bindoomobile.domain.models.feature_transactions.TransactionType
 import fr.utbm.bindoomobile.domain.repositories.TransactionRepository
+import fr.utbm.bindoomobile.ui.core.extensions.floatToString
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -84,10 +86,17 @@ class TransactionRepositoryMock(
             createdDate = System.currentTimeMillis(),
             recentStatus = TransactionStatus.PENDING,
             updatedStatusDate = System.currentTimeMillis(),
-            cardId = payload.cardId,
+            accountId = payload.accountId,
             reference = "",
             label = ""
         )
+        val success = sendMoneyFromApi(payload)
+        if (success) {
+            raw.recentStatus = TransactionStatus.COMPLETED
+        } else {
+            raw.recentStatus = TransactionStatus.FAILED
+        }
+
         val savedId = transactionDao.addTransaction(raw)
 
         val data = Data.Builder()
@@ -107,6 +116,29 @@ class TransactionRepositoryMock(
                 .build()
 
         workManager.enqueue(workRequest)
+    }
+
+    private suspend fun sendMoneyFromApi(payload: TransactionRowPayload): Boolean {
+        val mainAccount = accountDao.getAccountFilteredByPriority()!!.first()
+        val agency = agencyDao.getAgencyById(mainAccount.agencyId)!!
+
+        val token = prefs.pull<String>(PrefKeys.USER_TOKEN.name)
+
+        val transferResponse = api.transfer(
+            token = token,
+            agency = agency.code,
+            account = payload.accountId,
+            daccount = payload.destinationId,
+            amount = payload.amount.value.floatToString(),
+            comment = payload.comment
+        )
+        if (transferResponse.isSuccessful && transferResponse.body() != null) {
+            val response = transferResponse.body()!!
+            if (response.code == 0) {
+                return true
+            }
+        }
+        return false
     }
 
     private fun mapTransactionFromCache(

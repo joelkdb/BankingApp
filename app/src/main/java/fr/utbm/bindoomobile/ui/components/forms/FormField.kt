@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.sp
 import fr.utbm.bindoomobile.ui.components.text_fields.DecoratedPasswordTextField
 import fr.utbm.bindoomobile.ui.components.text_fields.DecoratedTextField
 import fr.utbm.bindoomobile.ui.components.ScreenPreview
+import fr.utbm.bindoomobile.ui.components.text_fields.DecoratedSearchTextField
+import fr.utbm.bindoomobile.ui.components.text_fields.PrimaryTextField
 import fr.utbm.bindoomobile.ui.core.resources.UiText
 import fr.utbm.bindoomobile.ui.feature_cards.screen_add_card.UiField
 import fr.utbm.bindoomobile.ui.theme.primaryFontFamily
@@ -42,7 +44,7 @@ private fun FormFieldWrapper(
             )
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         content()
     }
@@ -68,6 +70,49 @@ fun DecoratedFormField(
             onValueChange = onValueChange,
             error = uiField.error?.asString(),
             singleLine = singleLine,
+        )
+    }
+}
+
+@Composable
+fun DecoratedSearchFormField(
+    modifier: Modifier = Modifier,
+    fieldTitle: UiText,
+    uiField: UiField = UiField(value = "", error = null),
+    onValueChange: (String) -> Unit = {},
+    onTrailingIconClick: () -> Unit = {}
+) {
+
+    FormFieldWrapper(
+        modifier = modifier,
+        fieldTitle = fieldTitle
+    ) {
+        DecoratedSearchTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = uiField.value,
+            onValueChange = onValueChange,
+            onTrailingIconClick = onTrailingIconClick,
+        )
+    }
+}
+
+@Composable
+fun SimpleFormField(
+    modifier: Modifier = Modifier,
+    fieldTitle: UiText,
+    uiField: UiField = UiField(value = "", error = null),
+    onValueChange: (String) -> Unit = {},
+) {
+
+    FormFieldWrapper(
+        modifier = modifier,
+        fieldTitle = fieldTitle
+    ) {
+        PrimaryTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = uiField.value,
+            onValueChange = onValueChange,
+            error = uiField.error?.asString(),
         )
     }
 }
@@ -104,12 +149,22 @@ fun Fields_Preview() {
         ) {
             DecoratedFormField(
                 modifier = Modifier.fillMaxWidth(),
-                fieldTitle = UiText.DynamicString("Email Address")
+                fieldTitle = UiText.DynamicString("Username")
             )
 
             DecoratedPasswordFormField(
                 modifier = Modifier.fillMaxWidth(),
                 fieldTitle = UiText.DynamicString("Password")
+            )
+
+            DecoratedSearchFormField(
+                modifier = Modifier.fillMaxWidth(),
+                fieldTitle = UiText.DynamicString("Search")
+            )
+
+            SimpleFormField(
+                modifier = Modifier.fillMaxWidth(),
+                fieldTitle = UiText.DynamicString("Simple form field")
             )
         }
     }

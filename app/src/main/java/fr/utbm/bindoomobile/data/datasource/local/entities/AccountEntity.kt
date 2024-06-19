@@ -23,7 +23,7 @@ data class AccountEntity(
     val currencyCode: String,
     val accountTypeCode: String,
     val memberTypeCode: String,
-    val balance: Double = 0.0,
+    var balance: Double = 0.0,
     val accountOwner: String,
     val priority: Int,
     val enabled: Boolean,
